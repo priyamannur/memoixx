@@ -1,0 +1,31 @@
+name: memoixx
+description: "A new Flutter project."
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.2.3 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.2
+  sqflite: ^2.3.0
+  path: ^1.8.3
+  flutter_local_notifications: ^11.0.0
+  timezone: ^0.9.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/bello.png
+    - assets/images/casho.jpg
+    - assets/images/ex1.png
+    - assets/images/remem.png
+    - assets/images/todo.png
