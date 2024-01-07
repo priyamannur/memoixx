@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:memoixx/pages/generalReminder/alarm_database_helper.dart';
-import 'package:memoixx/pages/generalReminder/notifications_details_page.dart';
+import 'package:memoixx/pages/pagesSection2/alarm_database_helper.dart';
+import 'package:memoixx/pages/pagesSection2/notification_helper.dart';
 
 class AddAlarm extends StatefulWidget {
 
@@ -46,20 +46,50 @@ class Alarmadd extends State<AddAlarm> {
 
   Future<void> _showDialog(BuildContext context) async {
     
-     final DateTime? pickedDate = await showDatePicker(
+      DateTime? pickedDate = await showDatePicker(
     context: context,
     initialDate: myDateTime,
     firstDate: DateTime.now(),
     lastDate: DateTime.now().add(const Duration(days: 365)), // Allow selection for one year
   );
-
-    final picked = await showTimePicker(
+  if(pickedDate==null){
+    pickedDate = DateTime.now();
+  }
+  final picked;
+    picked = await showTimePicker(
     context: context,
       initialTime: selectedTime,
     );
+    final pickedDateTime = DateTime(
+      pickedDate.year,
+      pickedDate.month,
+      pickedDate.day,
+      picked.hour,
+      picked.minute,
+    );
+    
+    if(pickedDateTime.isBefore(DateTime.now())){
+       showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Error'),
+          content: const Text('Please select a future date and time.'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+    }
+    
 
-
-    if (picked != null && pickedDate!=null) {
+    if (picked!=null ) {
       setState(() {
         selectedTime = picked;
         selectedHour = picked.hour;
@@ -81,9 +111,7 @@ class Alarmadd extends State<AddAlarm> {
           var3="PM";
         }
 
-       myDateTime = DateTime.parse("${pickedDate.year}-${pickedDate.month}-${pickedDate.day} $var1:$var2:00");
-
-
+       myDateTime = pickedDateTime;
       });
     }
   }
@@ -111,10 +139,7 @@ class Alarmadd extends State<AddAlarm> {
               child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          _buildTimeBox(
-      '${myDateTime.year}-${myDateTime.month}-${myDateTime.day}',
-      'Date',
-    ),
+                          _buildTimeBox('${myDateTime.year}-${myDateTime.month}-${myDateTime.day}','Date',),
                           _buildTimeBox(selectedHour % 12 == 0 ? '12' : (selectedHour).toString(), 'Hours'),
                           _buildTimeBox(selectedMinute.toString().padLeft(2, '0'), 'Minutes'),
                           _buildTimeBox(isAm ? 'AM' : 'PM', 'AM/PM'),
@@ -131,8 +156,6 @@ class Alarmadd extends State<AddAlarm> {
                                 child: const Text('Set Time'),
                               ),
                     ),
-
-
         Column(
           children: [
             const SizedBox(height: 20),
@@ -148,8 +171,7 @@ class Alarmadd extends State<AddAlarm> {
                   hintText: 'Enter Text',
                   contentPadding: EdgeInsets.all(20),
                   enabledBorder: UnderlineInputBorder(),
-                  focusedBorder: UnderlineInputBorder(
-                  ),
+                  focusedBorder: UnderlineInputBorder(),
                 ),
               ),
             ),
@@ -189,7 +211,8 @@ class Alarmadd extends State<AddAlarm> {
                   dbHelper.insertAlarm(newAlarm);//Insert Alarm to db     ***also converts the added data to map    List of alarm objects, that were converted to it from being maps.                                                                                            
                  Navigator.pop(context,newAlarm);
               List<Alarm> als =await dbHelper.getAlarms();
-                 NotificationsRem().showNotifications(als);
+              NotificationsHelper.initialize();
+                 NotificationsHelper.showNotifications(als);
                           },
 
                 heroTag: const Text('s'),

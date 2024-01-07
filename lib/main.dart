@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:memoixx/pages/generalReminder/alarm_database_helper.dart';
+import 'package:memoixx/pages/pagesSection2/alarm_database_helper.dart';
 import 'package:memoixx/pages/pagesSection2/landing_page.dart';
-import 'package:memoixx/pages/generalReminder/notification_page.dart';
-
+import 'package:memoixx/pages/pagesSection2/notification_page.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
   FlutterLocalNotificationsPlugin notifyplugin = FlutterLocalNotificationsPlugin();
@@ -12,7 +11,8 @@ final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
   WidgetsFlutterBinding.ensureInitialized();
 
 await AlarmHelper().initializeDatabase();
-  AndroidInitializationSettings androidInitializationSettings = const AndroidInitializationSettings("@mipmap/ic_launcher");
+
+  AndroidInitializationSettings androidInitializationSettings = const AndroidInitializationSettings('reminder_image');
 
   DarwinInitializationSettings iosInitializationSettings = const DarwinInitializationSettings(
 requestAlertPermission: true,
@@ -25,6 +25,8 @@ requestSoundPermission: true,
 android: androidInitializationSettings,
 iOS: iosInitializationSettings,
   );
+
+
   await notifyplugin.initialize(
     initializationSettings,
     onDidReceiveNotificationResponse: (NotificationResponse response){
@@ -34,13 +36,12 @@ iOS: iosInitializationSettings,
     if (parts.length == 2) {
       final String title = parts[0];
       final String body = parts[1];
+   
              navigatorKey.currentState?.push(
-          MaterialPageRoute(builder: (context) => NotifyPage(title:title, body:body)),)
-          ;
+          MaterialPageRoute(builder: (context) => NotifyPage(title:title, body:body)),);
+    }
     }
       }
-
-    },
   );
 
 

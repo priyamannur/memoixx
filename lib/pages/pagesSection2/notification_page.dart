@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+
 class NotifyPage extends StatefulWidget{
    final String title;
   final String body;
@@ -55,12 +56,12 @@ class NotifyPageState extends State<NotifyPage>{
                  ),
                  Container(
                   margin: const EdgeInsets.all(20.0),
-                   child: Text("Description: ${widget.body}",
+                   child: Text(widget.body,
                    style: const TextStyle(color: Colors.white,
                    fontSize: 25.0),
                    ),
                  ),
-                 Text(widget.body),
+                
             
                 Row(  
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -110,7 +111,7 @@ class NotifyPageState extends State<NotifyPage>{
           actions: [
             TextButton(
               onPressed: () {
-                Navigator.of(context).pop(); 
+               Navigator.of(context).pop();
               },
               child: const Text("Ok"),
             ),

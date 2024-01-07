@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:memoixx/pages/generalReminder/add_alarm_page.dart';
-import 'package:memoixx/pages/generalReminder/alarm_database_helper.dart';
-
+import 'package:memoixx/pages/pagesSection2/alarm_database_helper.dart';
+import 'package:memoixx/pages/pagesSection2/notification_helper.dart';
 
 class GenReminder extends StatefulWidget{
 const GenReminder({super.key});
@@ -120,6 +120,7 @@ const SizedBox(height:25.0),
                AlarmHelper dbHelper =AlarmHelper();
                   await dbHelper.initializeDatabase();
               await AlarmHelper().deleteAlarm(alarms[index].id);
+              NotificationsHelper().deleteNotification(alarms[index]);
               setState(() {
                 alarms.removeAt(index);
               });

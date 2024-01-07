@@ -40,7 +40,7 @@ class OptionPage extends StatelessWidget{
                           })
                          );
                         },
-                        tooltip: 'Get Started',
+                       
                         backgroundColor: Colors.indigo.shade900,
                         child: const Text('Set General Reminders'),
                       ),
