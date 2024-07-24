@@ -1,6 +1,6 @@
 # memoixx
 
-A new Flutter project.
+A Reminder App for multi use purpose
 
 ## Getting Started
 
